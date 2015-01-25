@@ -1,5 +1,9 @@
 class BreweriesController < ApplicationController
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
+  
+
+    # before _action :authenticate, only: [:destroy]
+
 
   # GET /breweries
   # GET /breweries.json
@@ -67,6 +71,12 @@ class BreweriesController < ApplicationController
     def set_brewery
       @brewery = Brewery.find(params[:id])
     end
+
+  # def authenticate
+   #  authenticate_or_request_with_http_basic do |user, pass|
+    # end
+
+   #end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def brewery_params

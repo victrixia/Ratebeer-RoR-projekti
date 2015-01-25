@@ -1,0 +1,13 @@
+<h1>Tättärää täältä löytyy arvostelut</h1> 
+
+Number of ratings <%= @ratings.count %>
+
+<ul>
+  <%@ratings.each do |rating| %>
+     <li>
+       <%=rating %>
+     </li>
+    <%end%>
+  </ul>
+
+<%= link_to "create new", 'ratings/new' %> 

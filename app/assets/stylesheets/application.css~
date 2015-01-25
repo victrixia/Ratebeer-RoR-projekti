@@ -16,8 +16,6 @@
 
 .navbar {
    background: #EFEFEF;
-   padding: 10px;
+   color: #FFFF00;
    
 }
-
-
