@@ -4,15 +4,22 @@ class RatingsController < ApplicationController
     @ratings = Rating.all
   end
 
-   def new
-     @rating = Rating.new
-     @beer = Beer.all
-   end
+  def new
+    @rating = Rating.new
+    @beers = Beer.all
+  end
 
-   def create
-     Rating.create score: params.require(:rating).permit(:score, :beer_id)
+  def create
+
+    Rating.create params.require(:rating).permit(:beer_id, :score)
 
     redirect_to ratings_path
-   end
+  end
+
+  def destroy
+    rating = Rating.find(params[:id])
+    rating.delete
+    redirect_to ratings_path
+  end
 
 end

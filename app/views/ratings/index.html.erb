@@ -1,13 +1,14 @@
-<h1>Tättärää täältä löytyy arvostelut</h1> 
+<h1>All Ratings</h1>
 
 Number of ratings <%= @ratings.count %>
 
 <ul>
   <%@ratings.each do |rating| %>
+
      <li>
-       <%=rating %>
+       <%=rating %> <%= link_to 'delete', rating, method: :delete, data: {confirm: 'Are you sure?'}%>
      </li>
     <%end%>
   </ul>
 
-<%= link_to "create new", 'ratings/new' %> 
+<%= link_to "create new", new_rating_path %>
