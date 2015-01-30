@@ -1,15 +1,22 @@
 Rails.application.routes.draw do
 
 
-   root 'breweries#index'
+  resources :users
 
-   get 'kaikki_bisset', to: 'beers#index'
-   #get 'ratings', to: 'ratings#index'
-   #get 'ratings/new', to: 'ratings#new'
-   #post 'ratings', to: 'ratings#create'
+  root 'breweries#index'
 
-   resources :ratings, only: [:index, :new, :create, :destroy]
-  
+  get 'kaikki_bisset', to: 'beers#index'
+  #get 'ratings', to: 'ratings#index'
+  #get 'ratings/new', to: 'ratings#new'
+  #post 'ratings', to: 'ratings#create'
+
+  get 'signup', to: 'users#new'
+  get 'signin', to: 'sessions#new'
+  delete 'signout', to: 'sessions#destroy'
+  resource :session, only: [:new, :create, :delete]
+
+  resources :ratings, only: [:index, :new, :create, :destroy]
+
 
   resources :beers
 
