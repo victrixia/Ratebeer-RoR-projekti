@@ -9,22 +9,32 @@ class RatingsController < ApplicationController
     @beers = Beer.all
   end
 
-  def create
-
-    Rating.create params.require(:rating).permit(:beer_id, :score)
-
-    redirect_to ratings_path
-  end
+ # def destroy_orphans
+   # @ratings.each do |rating|
+   #   if rating.user_id.nil?
+   #     rating.delete
+    #  end
+    #end
+ # end
 
   def destroy
     rating = Rating.find(params[:id])
-    rating.delete
-    redirect_to ratings_path
+
+    rating.delete if current_user == rating.user
+    redirect_to :back
   end
 
   def create
-    rating = Rating.create params.require(:rating).permit(:score, :beer_id)
+    @rating = Rating.create params.require(:rating).permit(:score, :beer_id)
 
+    if @rating.save
+      current_user.ratings << @rating
+      redirect_to user_path current_user
+
+    else
+      @beers = Beer.all
+      render :new
+    end
     # talletetaan tehdyn reittauksen sessioon joo kyllä copypastesin
     # session[:last_rating] = "#{rating.beer.name} #{rating.score} points"
 
