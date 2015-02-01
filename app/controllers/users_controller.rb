@@ -59,6 +59,9 @@ class UsersController < ApplicationController
       user_ratings.each do |rating|
         rating.delete
       end
+      user_memberships.each do |ms|
+        ms.delete
+      end
       session.destroy
       respond_to do |format|
         format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
@@ -76,6 +79,10 @@ class UsersController < ApplicationController
 
   def user_ratings
     @user.ratings
+  end
+
+  def user_memberships
+    @user.memberships
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
