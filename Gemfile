@@ -41,6 +41,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :development, :test do
   gem 'sqlite3'
   gem 'better_errors'
+  gem 'rspec-rails', '~> 3.0'
+  gem 'rspec-its'
 end
 
 group :production do
@@ -49,6 +51,14 @@ group :production do
 end
 
 ruby '2.2.0'
+
+group :test do
+  gem 'simplecov', require:false
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
+
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

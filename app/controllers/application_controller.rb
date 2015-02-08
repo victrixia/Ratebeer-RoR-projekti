@@ -10,4 +10,9 @@ class ApplicationController < ActionController::Base
     User.find(session[:user_id])
   end
 
+
+  def auth
+
+    redirect_to signin_path if current_user.nil?
+  end
 end
