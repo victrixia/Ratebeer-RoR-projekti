@@ -1,24 +1,24 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <h2><%= @brewery.name %></h2>
-  
+<h2><%= @brewery.name %></h2>
+
 </p>
 
 <p>
   <i>Established in  <%= @brewery.year %></i>
- 
+
 </p>
 
-<p> <strong>Number of beers manufactured by this brewery:</strong>
-<%= @brewery.beers.count %>
+<p><strong>Number of beers manufactured by this brewery:</strong>
+  <%= @brewery.beers.count %>
 </p>
 
 
 
 <p>
   <% @brewery.beers.each do |beer| %>
-     <%= link_to beer.name, beer %>
+      <%= link_to beer.name, beer %>
   <% end %>
 
 </p>
@@ -35,5 +35,7 @@
 </p>
 
 
-<%= link_to 'Edit', edit_brewery_path(@brewery) %> |
-<%= link_to 'Back', breweries_path %>
+<%= link_to('Edit', edit_brewery_path(@brewery)) if current_user %>
+
+<%= link_to('Destroy', brewery_path(@brewery), method: :delete, data: {confirm: 'Are you sure?'}) if current_user %> <p>
+  <%= link_to 'Back', breweries_path %></p>

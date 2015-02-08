@@ -1,7 +1,7 @@
 class BeersController < ApplicationController
   before_action :set_beer, only: [:show, :edit, :update, :destroy]
   before_action :apu, only: [:new, :edit, :create]
-  before_action :auth, only: [:new, :edit, :create, :destroy]
+  before_action :ensure_that_signed_in, except: [:index, :show]
 
   # GET /beers
   # GET /beers.json

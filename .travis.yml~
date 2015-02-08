@@ -1,10 +1,15 @@
 language: ruby
-
 rvm:
- - 2.0.0
-
+- 2.2.0
 script:
- - bundle exec rake db:migrate --trace
- - RAILS_ENV=test bundle exec rake db:migrate --trace
- - bundle exec rake db:test:prepare
- - bundle exec rspec -fd spec/
+- bundle exec rake db:migrate --trace
+- RAILS_ENV=test bundle exec rake db:migrate --trace
+- bundle exec rake db:test:prepare
+- bundle exec rspec -fd spec/
+deploy:
+  provider: heroku
+  api_key:
+    secure: kn4rrzu7zIU2ZM3e93t/WVQOz7WnNDRROBxXULDuvUFox6v/LUTbgzdFgenzHHwEQvec1IivIpxXuWvuXRVosOkyOro2wa2M7bESdMdlDIjVrv5xmVkN368MXxSWw0v0Jv1/FiVd1Se045NqOsHVBBc+pvc1cxaweAcxvV+hXX4=
+  app: pasilan-kaljankittaajat
+  on:
+    repo: victrixia/wadror-ratebeer

@@ -16,5 +16,12 @@ class User < ActiveRecord::Base
     ratings.order(score: :desc).limit(1).first.beer
   end
 
+  def favourite_style
+    return nil if ratings.empty?
+
+    return "Lager"
+
+  end
+
 
 end
