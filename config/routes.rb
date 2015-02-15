@@ -14,6 +14,14 @@ Rails.application.routes.draw do
   #get 'ratings/new', to: 'ratings#new'
   #post 'ratings', to: 'ratings#create'
 
+
+  #place routes
+
+  post 'places', to:'places#index'
+  get 'places', to: 'places#index'
+
+
+  #user routes
   get 'signup', to: 'users#new'
   get 'signin', to: 'sessions#new'
   delete 'signout', to: 'sessions#destroy'
