@@ -12,11 +12,14 @@ class BeersController < ApplicationController
   # GET /beers/1
   # GET /beers/1.json
   def show
+    @rating = Rating.new
+    @rating.beer = @beer
   end
 
   def apu
     @breweries = Brewery.all
-    @styles = ["Weizen", "Lager", "Pale Ale", "IPA", "Porter", "Low Alcohol", "Red Ale", "Imperial Ale"]
+    @styles = Style.all
+
   end
 
   # GET /beers/new
@@ -80,6 +83,6 @@ class BeersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def beer_params
-      params.require(:beer).permit(:name, :style, :brewery_id)
+      params.require(:beer).permit(:name, :style_id, :brewery_id)
     end
 end

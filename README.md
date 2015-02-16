@@ -6,4 +6,4 @@ http://pasilan-kaljankittaajat.herokuapp.com/breweries
 
 [![Code Climate](https://codeclimate.com/github/victrixia/wadror-ratebeer/badges/gpa.svg)](https://codeclimate.com/github/victrixia/wadror-ratebeer)
 
-apikey: f1734084018b25452b9be69552f6622a
+

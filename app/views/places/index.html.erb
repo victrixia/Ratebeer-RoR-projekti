@@ -16,7 +16,9 @@
           <tr>
             <% Place.rendered_fields.each do |f| %>
                 <td><%= place.send(f) %></td>
+
             <% end %>
+                <td><%= link_to 'Restaurant information', place %></td>
           </tr>
       <% end %>
     </table>
