@@ -6,14 +6,18 @@
 </p>
 
 <p>Has made <%= @user.ratings.count %> ratings, average: <%= @user.average_rating %></p>
-<p>Favourite brewery: <%= @user.favourite_brewery.name%></p>
-<p>Favourite style: <%= @user.favourite_style%></p>
+
+<% unless @user.ratings.empty? %>
+    <p>Favourite brewery: <%= @user.favourite_brewery.name %></p>
+    <p>Favourite style: <%= @user.favourite_style %></p>
+<% end %>
 
 <% if @user.memberships.empty? %>
     <%= "#{@user.username } is not a member of any beer clubs yet!" %>
 <% else %>
     <p>Is a member of <%= @user.memberships.count %> beer <%= 'club'.pluralize(@user.memberships.count) %>:</p>
-    <p><% @user.memberships.each do |membership| %>
+    <p>
+      <% @user.memberships.each do |membership| %>
           <%= link_to membership.beer_club.name, membership.beer_club %>
           </p>
       <% end %>
