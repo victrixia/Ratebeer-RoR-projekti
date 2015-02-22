@@ -1,5 +1,9 @@
 <p id="notice"><%= notice %></p>
 
+<%= link_to activity_toggle_label_name(@brewery),
+            toggle_activity_brewery_path(@brewery.id),
+            method: :post, class: "btn btn-primary" %>
+
 <p>
 <h2><%= @brewery.name %></h2>
 

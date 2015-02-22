@@ -9,7 +9,7 @@
 
 <% unless @user.ratings.empty? %>
     <p>Favourite brewery: <%= @user.favourite_brewery.name %></p>
-    <p>Favourite style: <%= @user.favourite_style %></p>
+    <p>Favourite style: <%= @user.favourite_style.name %></p>
 <% end %>
 
 <% if @user.memberships.empty? %>

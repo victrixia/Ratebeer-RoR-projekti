@@ -79,7 +79,8 @@ describe User do
     end
 
     it "is the only rated beer if user only has one rating" do
-      beer = create_beer_with_rating(10, user)
+      beer =FactoryGirl.create(:beer)
+      FactoryGirl.create(:rating, beer:beer, user:user)
 
       expect(user.favourite_beer).to eq(beer)
     end

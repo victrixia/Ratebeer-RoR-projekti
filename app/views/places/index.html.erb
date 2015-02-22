@@ -6,19 +6,21 @@
 <% end %>
 
 <% if @places %>
-    <table>
+    <table class  ="table table-hover">
       <thead>
+      <td>name</td>
       <% Place.rendered_fields.each do |f| %>
-          <td><%=f %></td>
+          <td><%= f %></td>
       <% end %>
       </thead>
       <% @places.each do |place| %>
           <tr>
+            <td><%= link_to place.name, place_path(place.id)%></td>
             <% Place.rendered_fields.each do |f| %>
                 <td><%= place.send(f) %></td>
 
             <% end %>
-                <td><%= link_to 'Restaurant information', place %></td>
+            <td><%= link_to 'Restaurant information', place, class: 'btn btn-info' %></td>
           </tr>
       <% end %>
     </table>

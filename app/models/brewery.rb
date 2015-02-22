@@ -9,6 +9,9 @@ class Brewery < ActiveRecord::Base
   has_many :beers, dependent: :destroy
   has_many :ratings, through: :beers
 
+  scope :active, -> {where active:true}
+  scope :inactive, -> {where active:[false, nil]}
+
   def print_report
     puts name
     puts "established at year #{year}"
@@ -20,6 +23,12 @@ class Brewery < ActiveRecord::Base
     puts "Changed year to #{year}"
   end
 
+
+
+  #voi tehdä näin mut parempi on scope
+  # def self.active
+  #   Brewery.where(active:true)
+  # end
 
 
 end

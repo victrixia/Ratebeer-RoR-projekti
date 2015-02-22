@@ -7,7 +7,9 @@ gem 'rails', '4.2.0'
 #Except don't because of Heroku
 # gem 'sqlite3' 
 
+# bootstrap
 
+gem 'bootstrap-sass'
   
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -40,6 +42,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 #HTTParty
 
 gem 'httparty'
+
+group :development do
+  gem 'rails_layout'
+end
 
 group :development, :test do
   gem 'sqlite3'
