@@ -15,12 +15,12 @@
       </thead>
       <% @places.each do |place| %>
           <tr>
-            <td><%= link_to place.name, place_path(place.id)%></td>
+            <td><%= place.name%></td>
             <% Place.rendered_fields.each do |f| %>
                 <td><%= place.send(f) %></td>
 
             <% end %>
-            <td><%= link_to 'Restaurant information', place, class: 'btn btn-info' %></td>
+            <td><%= link_to 'Restaurant information', place_path(place.id), class: 'btn btn-info' %></td>
           </tr>
       <% end %>
     </table>
