@@ -14,15 +14,18 @@
       <ul class="nav navbar-nav">
         <%= render 'layouts/navigation_links' %>
 
-        <li role="presentation" class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-            <%= current_user.username %><span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" role="menu">
-            <%= render 'layouts/user_navigation_links' %>
-          </ul>
 
-        </li>
+        <% if current_user %>
+            <li role="presentation" class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                <%= current_user.username %><span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <%= render 'layouts/user_navigation_links' %>
+              </ul>
+
+            </li>
+        <% end %>
 
       </ul>
 
