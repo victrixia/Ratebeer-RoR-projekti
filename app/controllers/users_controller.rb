@@ -1,6 +1,17 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :make_sure_that_user_is_admin, only: [:freeze]
 
+
+  def freeze
+
+    user = User.find(params[:id])
+    user.update_attribute :active, (not user.active)
+
+    new_status = user.active? ? "unfrozen" : "frozen"
+
+    redirect_to :back, notice:"User activity status changed to #{new_status}"
+  end
   # GET /users
   # GET /users.json
   def index

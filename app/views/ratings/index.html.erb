@@ -1,6 +1,43 @@
 <h1>All Ratings</h1>
+<div class="row">
+  <div class="col-md-4">
 
-Number of ratings <%= @ratings.count %>
+    <h2>Best breweries</h2>
+    <% unless @top_breweries.nil? %>
+        <%= render 'table', rated: @top_breweries %>
+    <% else %>
+        No rated breweries yet!
+    <% end %>
+
+  </div>
+  <div class="col-md-4">
+    <h2>Best beers</h2>
+    <% unless @top_beers.nil? %>
+        <%= render 'table', rated: @top_beers %>
+    <% else %>
+        No beers rated yet!
+    <% end %>
+  </div>
+  <div class="col-md-4">
+
+    <h2>Best styles</h2>
+    <% unless @top_styles.nil? %>
+        <%= render 'table', rated: @top_styles %>
+    <% else %>
+        No styles rated yet!
+    <% end %>
+  </div>
+</div>
+
+<h2>Most active users:</h2>
+<% unless @top_users.nil? %>
+    <%= render 'active_user_table', users: @top_users %>
+<% else %>
+    No one has rated anything yet!
+<% end %>
+
+<h2>Recent ratings:</h2>
+
 
 <table class="table table-striped">
   <thead>
@@ -14,13 +51,13 @@ Number of ratings <%= @ratings.count %>
 
   <tbody>
 
-  <% @ratings.each do |rating| %>
-  <tr>
-      <td><%= rating.beer %></td>
-    <td><%= rating.score %></td>
-      <td><%= link_to rating.user.username, rating.user %></td>
+  <% @recent.each do |rating| %>
+      <tr>
+        <td><%= rating.beer %></td>
+        <td><%= rating.score %></td>
+        <td><%= link_to rating.user.username, rating.user %></td>
 
-  </tr>
+      </tr>
 
   <% end %>
 
@@ -28,7 +65,7 @@ Number of ratings <%= @ratings.count %>
   </tbody>
 </table>
 
-<%if current_user%>
-<%= link_to "create new", new_rating_path, class: 'btn btn-success' %>
+<% if current_user %>
+    <%= link_to "create new", new_rating_path, class: 'btn btn-success' %>
 
-<%end%>
+<% end %>

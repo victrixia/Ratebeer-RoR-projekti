@@ -1,0 +1,33 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Username</th>
+    <th>Favourite Beer</th>
+    <th>Preferred Style</th>
+    <th>Favourite Brewery</th>
+    <th>Ratings</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% users.each do |u| %>
+      <tr>
+        <td><%= link_to u.username, user_path(u.id) %></td>
+        <% unless u.ratings.empty? %>
+            <td><%= u.favourite_beer.name %></td>
+            <td><%= u.favourite_style.name %></td>
+            <td><%= u.favourite_brewery.name %></td>
+        <% else %>
+            <td>--</td>
+
+            <td>--</td>
+
+            <td>--</td>
+
+        <% end %>
+        <td><%= u.ratings.count %></td>
+
+      </tr>
+  <% end %>
+  </tbody>
+</table>

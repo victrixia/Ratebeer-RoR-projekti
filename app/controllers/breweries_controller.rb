@@ -1,6 +1,7 @@
 class BreweriesController < ApplicationController
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
   before_action :ensure_that_signed_in, except: [:index, :show]
+  before_action :make_sure_that_user_is_admin, only: [:destroy]
 
   def toggle_activity
     brewery = Brewery.find(params[:id])
@@ -16,6 +17,7 @@ class BreweriesController < ApplicationController
   def index
     @breweries = Brewery.active #all.where(active:true)
     @inactiveBreweries = Brewery.inactive #all.where(active:false)
+
     #
     # Brewery.active.order(:name).limit(7)
 

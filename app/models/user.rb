@@ -24,7 +24,8 @@ class User < ActiveRecord::Base
   end
 
   def favourite_beer
-    favourite(:beer)
+    return nil if ratings.empty?
+    ratings.order(score: :desc).limit(1).first.beer
   end
 
 
@@ -36,10 +37,16 @@ class User < ActiveRecord::Base
     favourite(:style)
   end
 
+  def self.users_with_most_ratings(n)
+    users_with_most_ratings = User.all.sort_by{|u| -(u.ratings.count||0)}
+    return users_with_most_ratings.take (n)
+
+  end
+
   private
 
-  def rated(x)
-    ratings.map{|r| r.beer.send(x)}.uniq
+  def rated(category)
+    ratings.map{|r| r.beer.send(category)}.uniq
   end
 
   def rated_styles
@@ -63,6 +70,8 @@ class User < ActiveRecord::Base
     end
     ratings_of_item.map(&:score).sum / ratings_of_item.count
   end
+
+
 
   # def rating_of(x, object)
   #

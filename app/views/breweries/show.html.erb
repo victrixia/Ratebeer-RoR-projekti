@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+
 
 <%= link_to activity_toggle_label_name(@brewery),
             toggle_activity_brewery_path(@brewery.id),
@@ -39,7 +39,5 @@
 </p>
 
 
-<%= link_to('Edit', edit_brewery_path(@brewery)) if current_user %>
-
-<%= link_to('Destroy', brewery_path(@brewery), method: :delete, data: {confirm: 'Are you sure?'}) if current_user %> <p>
-  <%= link_to 'Back', breweries_path %></p>
+<%= edit_and_destroy_buttons(@brewery)%>
+  <%= link_to 'Back', breweries_path, class: 'btn btn-success' %></p>

@@ -1,11 +1,16 @@
-<p id="notice"><%= notice %></p>
+
 
 <p>
 
 <h1><%= @user.username %></h1>
+
+<%unless @user.active %>
+
+<button type="button" class='btn btn-info'>Account Frozen</button>
+<%end%>
 </p>
 
-<p>Has made <%= @user.ratings.count %> ratings, average: <%= @user.average_rating %></p>
+<p>Has made <%= @user.ratings.count %> ratings, average: <%= round(@user.average_rating) %></p>
 
 <% unless @user.ratings.empty? %>
     <p>Favourite brewery: <%= @user.favourite_brewery.name %></p>
@@ -24,21 +29,32 @@
 <% end %>
 
 <h2>Ratings by this user:</h2>
-<ul>
+<table class="table table-striped">
   <% @user.ratings.each do |rating| %>
-
-      <li>
-        <%= rating %>
-        <% if @user == current_user %>
-            <%= link_to 'delete', rating, method: :delete, data: {confirm: 'Are you sure?'} %>
-        <% end %>
-      </li>
+      <tr>
+        <td> <%= rating.beer.name %></td>
+        <td><%= rating.score %></td>
+        <td>
+          <% if @user == current_user %>
+              <%= link_to 'delete', rating, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' %>
+          <% end %>
+        </td>
+      </tr>
   <% end %>
-</ul>
 
-<% if @user == current_user %>
-    <%= link_to 'Edit', edit_user_path(@user) %> |
 
-    <%= link_to 'Destroy', @user, method: :delete, data: {confirm: 'Are you sure?'} %> |
+</table>
+
+<p><% if @user == current_user %>
+    <%= link_to 'Edit', edit_user_path(@user),class:'btn btn-primary' %>
+
+    <%= link_to 'Destroy', @user, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' %>
 <% end %>
-<%= link_to 'Back', users_path %>
+<%= link_to 'Back', users_path, class: 'btn btn-default' %></p>
+
+<p>
+
+<%= link_to freeze_label_name(@user),
+            freeze_user_path(@user.id),
+            method: :post, class: "btn btn-primary" if current_user && current_user.admin%></p>
+
