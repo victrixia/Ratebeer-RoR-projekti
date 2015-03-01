@@ -17,30 +17,37 @@ class BreweriesController < ApplicationController
   def index
 
     @breweries = Brewery.active #all.where(active:true)
-    @inactive_breweries = Brewery.inactive #all.where(active:false)
 
 
     order = params["order"] || "name"
 
-    case order
-      when 'name' then
-        @breweries= @breweries.sort_by { |b| b.name }
-        @inactive_breweries = @inactive_breweries.sort_by { |b| b.name }
+    @breweries = case order
+                   when 'name' then
+                     @breweries= @breweries.sort_by { |b| b.name }
 
-      when 'year' then
-        @breweries = @breweries.sort_by { |b| b.year }
-        @inactive_breweries = @inactive_breweries.sort_by { |b| b.year }
+                   when 'year' then
+                     @breweries = @breweries.sort_by { |b| b.year }
 
-    end
+                 end
+
+    @inactive_breweries = Brewery.inactive #all.where(active:false)
+    @inactive_breweries = case order
+                            when 'name' then
+                              @inactive_breweries = @inactive_breweries.sort_by { |b| b.name }
+                            when 'year' then
+
+                              @inactive_breweries = @inactive_breweries.sort_by { |b| b.year }
+                          end
 
 
-    if order.equal?(:last_session)
+    
+    if order.eql?(session[:last_session])
       @breweries = @breweries.reverse
       @inactive_breweries = @inactive_breweries.reverse
 
     end
 
-    session[:last_session] = params["order"]
+    session[:last_session] = order
 
   end
   #
