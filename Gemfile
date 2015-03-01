@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+#jscriptiä
+
+gem 'jquery-turbolinks'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'

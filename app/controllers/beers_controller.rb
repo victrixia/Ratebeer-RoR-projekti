@@ -2,11 +2,30 @@ class BeersController < ApplicationController
   before_action :set_beer, only: [:show, :edit, :update, :destroy]
   before_action :apu, only: [:new, :edit, :create]
   before_action :ensure_that_signed_in, except: [:index, :show]
-  before_action :make_sure_that_user_is_admin, only: [:destroy]
+  before_action :expire_cache, only: [:edit, :update, :create, :destroy]
   # GET /beers
   # GET /beers.json
   def index
-    @beers = Beer.all
+
+    jarj = params["order"] || "name"
+
+    unless fragment_exist?("beerlist")
+
+      @beers = Beer.includes(:brewery, :style).all
+
+      # Beer.includes(:style).order("styles.name")  Järjestetty tietokantatasolla tyylin nimen mukaan
+      # @beers.sort_by { |b| b.style.name } sama välimuistissa
+      # Seuraava on nopein ja tekee vähiten tietokantahakuja.
+
+      case jarj
+        when 'name' then
+          @beers = @beers.sort_by { |b| b.name }
+        when 'style' then
+          @beers = @beers.sort_by { |b| b.style.name }
+        when 'brewery' then
+          @beers = @beers.sort_by { |b| b.brewery.name }
+      end
+    end
   end
 
   # GET /beers/1
@@ -19,6 +38,10 @@ class BeersController < ApplicationController
   def apu
     @breweries = Brewery.all
     @styles = Style.all
+
+  end
+
+  def list
 
   end
 
@@ -76,13 +99,18 @@ class BeersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_beer
-      @beer = Beer.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_beer
+    @beer = Beer.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def beer_params
-      params.require(:beer).permit(:name, :style_id, :brewery_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def beer_params
+    params.require(:beer).permit(:name, :style_id, :brewery_id)
+  end
+
+  def expire_cache
+
+    expire_fragment "beerlist"    # putsataan välimuisti jotta uusi olut pääsee käyttäjän listalle
+  end
 end
