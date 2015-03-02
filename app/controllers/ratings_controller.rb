@@ -3,6 +3,7 @@ class RatingsController < ApplicationController
   def index
 
     # eeeehm kai tää toimii? Ainakin vähän? En oikein saa top_usersista karsittua jostain syystä noita kyselyitä, mutta ainakaan tässä ei enää mene 10 sekuntia per lataus...
+    # tässä nyt on vielä sellanen helvetti että localhostilla toimii mutta herokussa ei. AAARGH.
 
     @ratings = Rails.cache.read "all"
     # @recent = Rating.order(created_at: :desc).limit(5)

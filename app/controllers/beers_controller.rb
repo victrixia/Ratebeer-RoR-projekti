@@ -17,11 +17,11 @@ class BeersController < ApplicationController
 
     case @order
       when 'name' then
-        @beers = @beers.sort_by! { |b| b.name }
+        @beers = @beers.sort_by { |b| b.name }
       when 'style' then
-        @beers = @beers.sort_by! { |b| b.style.name }
+        @beers = @beers.sort_by { |b| b.style.name }
       when 'brewery' then
-        @beers = @beers.sort_by! { |b| b.brewery.name }
+        @beers = @beers.sort_by { |b| b.brewery.name }
     end
 
   end
