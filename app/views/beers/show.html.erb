@@ -1,46 +1,37 @@
-<p id="notice"><%= notice %></p>
+<% cache @beer do %>
 
+    <h2>
+      <%= @beer.name %>
+    </h2>
 
-<h2><%= @beer.name %></h2>
+    <p>
+      <%= link_to @beer.style, @beer.style %>
+      brewed by
+      <%= link_to @beer.brewery.name, @beer.brewery %>
+    </p>
 
+    <% if @beer.ratings.empty? %>
+        <p>beer has not yet been rated! </p>
+    <% else %>
+        <p>Has <%= pluralize(@beer.ratings.count,'rating') %>, average <%= round(@beer.average_rating) %> </p>
+    <% end %>
 
+<% end %>
 
-<p>
-  <strong>Style:</strong>
-  <%= @beer.style.name %>
-</p>
-
-<p>
-  <strong>Brewery:</strong>
-  <%= @beer.brewery.name %>
-</p>
-
-<p>
-  <% if @beer.ratings.empty? %>
-      Beer has not yet been rated!
-  <% else %>
-      Has <%= @beer.ratings.count %> <%= "rating".pluralize(@beer.ratings.count) %>,
-      average <%= round(@beer.average_rating) %>
-
-  <% end %>
-
-
-
-</p>
+<!- cachaamaton osa >
 
 <% if current_user %>
 
-    <p> <h4>give a rating:</h4>
+    <h4>give a rating:</h4>
 
     <%= form_for(@rating) do |f| %>
         <%= f.hidden_field :beer_id %>
         score: <%= f.number_field :score %>
-        <%= f.submit %>
+        <%= f.submit class:"btn btn-primary"  %>
     <% end %>
-</p>
 
+    <p></p>
 
-<%end%>
+<% end %>
 
-<%= link_to 'Back', beers_path, class: 'btn btn-success' %>
-<%= edit_and_destroy_buttons(@beer)%>
+<%= edit_and_destroy_buttons(@beer) %>

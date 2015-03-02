@@ -20,6 +20,10 @@ class SessionsController < ApplicationController
 
   end
 
+  def create_oauth
+    #aaasfj antaahan olla.
+  end
+
   def destroy
     # nollataan sessio
     session[:user_id] = nil

@@ -1,13 +1,18 @@
 class RatingsController < ApplicationController
 
   def index
-    @ratings = Rating.all
+
+    # eeeehm kai tää toimii? Ainakin vähän? En oikein saa top_usersista karsittua jostain syystä noita kyselyitä, mutta ainakaan tässä ei enää mene 10 sekuntia per lataus...
+
+    @ratings = Rails.cache.read "all"
     # @recent = Rating.order(created_at: :desc).limit(5)
-    @recent = Rating.recent
-    @top_breweries = Brewery.top(3)
-    @top_beers = Beer.top(3)
-    @top_users = User.users_with_most_ratings(3)
-    @top_styles = Style.top_styles(3)
+
+    @recent = Rails.cache.read "recent"
+    @top_breweries = Rails.cache.read "brewery top 3"
+
+    @top_beers = Rails.cache.read "beer top 3"
+    @top_users = Rails.cache.read "top users"
+    @top_styles = Rails.cache.read "top styles"
   end
 
   def new
@@ -15,13 +20,13 @@ class RatingsController < ApplicationController
     @beers = Beer.all
   end
 
- # def destroy_orphans
-   # @ratings.each do |rating|
-   #   if rating.user_id.nil?
-   #     rating.delete
-    #  end
-    #end
- # end
+  # def destroy_orphans
+  # @ratings.each do |rating|
+  #   if rating.user_id.nil?
+  #     rating.delete
+  #  end
+  #end
+  # end
 
   def destroy
     rating = Rating.find(params[:id])
@@ -49,5 +54,21 @@ class RatingsController < ApplicationController
 
     # redirect_to ratings_path
   end
+
+  private
+
+  def update_cache_in_background
+    while true do
+      sleep 10.minutes
+      Rails.cache.write("all", Rating.includes(:beer, :user).all)
+      Rails.cache.write("recent", @ratings.recent)
+      Rails.cache.write("brewery top 3", Brewery.includes(:beers, :ratings).top(3))
+      Rails.cache.write("beer top 3", Beer.includes(:brewery, :style).top(3))
+      Rails.cache.write("top users", User.includes(:ratings, :beers).users_with_most_ratings(3))
+      Rails.cache.write("top styles", Style.includes(:beers, :ratings).top_styles(3))
+
+    end
+  end
+
 
 end

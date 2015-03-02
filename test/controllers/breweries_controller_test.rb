@@ -8,7 +8,7 @@ class BreweriesControllerTest < ActionController::TestCase
   test "should get index" do
     get :index
     assert_response :success
-    assert_not_nil assigns(:breweries)
+    assert_not_nil assigns(:active_breweries)
   end
 
   test "should get new" do

@@ -44,7 +44,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 #HTTParty
 
+gem 'rack-mini-profiler'
 gem 'httparty'
+gem 'omniauth-github'
 
 group :development do
   gem 'rails_layout'
@@ -70,6 +72,8 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'webmock'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
 
 end
 

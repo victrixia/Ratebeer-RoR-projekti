@@ -2,6 +2,10 @@ class BreweriesController < ApplicationController
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
   before_action :ensure_that_signed_in, except: [:index, :show]
   before_action :make_sure_that_user_is_admin, only: [:destroy]
+  before_action :expire_cache, only: [:update, :edit, :destroy, :create]
+  before_action :skip_if_cached, only:[:index]
+
+
 
   def toggle_activity
     brewery = Brewery.find(params[:id])
@@ -16,22 +20,22 @@ class BreweriesController < ApplicationController
   # GET /breweries.json
   def index
 
-    @breweries = Brewery.active #all.where(active:true)
+    @breweries = Brewery.all
+
+    @active_breweries = Brewery.active #all.where(active:true)
 
 
-    order = params["order"] || "name"
-
-    @breweries = case order
+    @active_breweries = case @order
                    when 'name' then
-                     @breweries= @breweries.sort_by { |b| b.name }
+                     @active_breweries= @active_breweries.sort_by { |b| b.name }
 
                    when 'year' then
-                     @breweries = @breweries.sort_by { |b| b.year }
+                     @active_breweries = @active_breweries.sort_by { |b| b.year }
 
                  end
 
     @inactive_breweries = Brewery.inactive #all.where(active:false)
-    @inactive_breweries = case order
+    @inactive_breweries = case @order
                             when 'name' then
                               @inactive_breweries = @inactive_breweries.sort_by { |b| b.name }
                             when 'year' then
@@ -39,15 +43,21 @@ class BreweriesController < ApplicationController
                               @inactive_breweries = @inactive_breweries.sort_by { |b| b.year }
                           end
 
+    if session
+      if not (session[:asc_order]) || !(session[:last_order]).eql?(@order)
+        session[:asc_order] = true
+      else
+        session[:asc_order] =!(session[:asc_order])
+      end
+    end
 
-    
-    if order.eql?(session[:last_session])
-      @breweries = @breweries.reverse
+    unless session[:asc_order]
+      @active_breweries = @active_breweries.reverse
       @inactive_breweries = @inactive_breweries.reverse
 
     end
 
-    session[:last_session] = order
+    session[:last_session] = @order
 
   end
   #
@@ -55,10 +65,16 @@ class BreweriesController < ApplicationController
 
 end
 
+
+def nglist
+
+end
+
 # GET /breweries/1
 # GET /breweries/1.json
 def show
 end
+
 
 # GET /breweries/new
 def new
@@ -121,3 +137,11 @@ def brewery_params
   params.require(:brewery).permit(:name, :year, :active)
 end
 
+def expire_cache
+  ["brewerylist-name", "brewerylist-year"].each{ |f| expire_fragment(f) }
+end
+
+def skip_if_cached
+  @order = params[:order] || 'name'
+  return render :index if fragment_exist?( "brewerylist-#{@order}"  )
+end

@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
   post 'places', to: 'places#search'
 
+
+  get 'auth/:provider/callback', to: 'sessions#create_oauth'
   #user routes
   get 'signup', to: 'users#new'
   get 'signin', to: 'sessions#new'
@@ -38,6 +40,8 @@ Rails.application.routes.draw do
   resources :beers
 
   get 'beerlist', to: 'beers#list'
+  get 'ngbeerlist', to: 'beers#nglist'
+  get 'brewerylist', to: 'breweries#nglist'
 
   resources :breweries do
     post 'toggle_activity', on: :member
