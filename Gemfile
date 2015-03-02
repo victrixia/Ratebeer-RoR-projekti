@@ -47,6 +47,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rack-mini-profiler'
 gem 'httparty'
 gem 'omniauth-github'
+gem 'puma'
 
 group :development do
   gem 'rails_layout'

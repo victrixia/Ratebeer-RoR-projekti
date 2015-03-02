@@ -61,7 +61,7 @@ class RatingsController < ApplicationController
     while true do
       sleep 10.minutes
       Rails.cache.write("all", Rating.includes(:beer, :user).all)
-      Rails.cache.write("recent", @ratings.recent)
+      Rails.cache.write("recent", Rating.recent)
       Rails.cache.write("brewery top 3", Brewery.includes(:beers, :ratings).top(3))
       Rails.cache.write("beer top 3", Beer.includes(:brewery, :style).top(3))
       Rails.cache.write("top users", User.includes(:ratings, :beers).users_with_most_ratings(3))
